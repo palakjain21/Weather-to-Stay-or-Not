@@ -8,5 +8,5 @@
     "strict": true,
     "outDir": "dist"
   },
-  "include": ["src", "prisma"]
+  "include": ["backend/src", "backend/prisma"]
 }
