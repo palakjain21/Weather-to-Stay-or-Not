@@ -21,9 +21,13 @@ export const getProperties: GetPropertiesService = async (params: GetPropertiesP
     const limitedProperties = params.limit 
       ? filteredProperties.slice(0, params.limit)
       : filteredProperties;
-
+    let hasMore = false;
+    if (limitedProperties.length === params.limit) {
+      hasMore = true;
+    }
     return {
-      properties: limitedProperties
+      properties: limitedProperties,
+      hasMore
     };
   } catch (error) {
     console.error("Error fetching properties:", error);

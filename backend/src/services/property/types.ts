@@ -35,6 +35,7 @@ export interface GetPropertiesParams {
 
 export interface GetPropertiesResult {
   properties: PropertyWithWeather[];
+  hasMore?: boolean;
   error?: string;
 }
 

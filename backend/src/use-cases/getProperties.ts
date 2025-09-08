@@ -35,7 +35,10 @@ export const getProperties = async (req: Request, res: Response) => {
       return res.status(500).json({ error: result.error });
     }
 
-    return res.json(result.properties);
+    return res.json({
+      properties: result.properties,
+      hasMore: result.hasMore
+    });
   } catch (error) {
     console.error("Error in getProperties use case:", error);
     return res.status(500).json({ error: "Internal Server Error" });
