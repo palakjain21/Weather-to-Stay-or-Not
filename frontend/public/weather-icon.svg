@@ -1,0 +1,25 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="32" fill="#3B82F6"/>
+  
+  <!-- Sun -->
+  <circle cx="24" cy="24" r="8" fill="#FCD34D"/>
+  <g stroke="#FCD34D" stroke-width="2" stroke-linecap="round">
+    <line x1="24" y1="8" x2="24" y2="12"/>
+    <line x1="24" y1="36" x2="24" y2="40"/>
+    <line x1="8" y1="24" x2="12" y2="24"/>
+    <line x1="36" y1="24" x2="40" y2="24"/>
+    <line x1="13.76" y1="13.76" x2="16.59" y2="16.59"/>
+    <line x1="31.41" y1="31.41" x2="34.24" y2="34.24"/>
+    <line x1="34.24" y1="13.76" x2="31.41" y2="16.59"/>
+    <line x1="16.59" y1="31.41" x2="13.76" y2="34.24"/>
+  </g>
+  
+  <!-- Cloud -->
+  <path d="M36 30c0-2.2 1.8-4 4-4s4 1.8 4 4c1.1 0 2 .9 2 2s-.9 2-2 2H36c-1.1 0-2-.9-2-2s.9-2 2-2z" fill="#E5E7EB"/>
+  
+  <!-- House -->
+  <path d="M20 44L32 36L44 44V54H20V44Z" fill="#FFFFFF"/>
+  <path d="M32 36L20 44H44L32 36Z" fill="#E5E7EB"/>
+  <rect x="28" y="48" width="8" height="6" fill="#3B82F6"/>
+</svg>
