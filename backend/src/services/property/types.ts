@@ -29,6 +29,7 @@ export interface PropertyWithWeather extends Property {
 export interface GetPropertiesParams {
   searchText?: string;
   limit?: number;
+  page?: number;
   weatherFilters?: WeatherFilters;
 }
 

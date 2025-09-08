@@ -11,6 +11,7 @@ export const getProperties: GetPropertiesService = async (params: GetPropertiesP
     const properties = await prisma.property.findMany({
       take: fetchLimit,
       where: buildPropertyWhere(params),
+      skip: params.page ? params.page * (params.limit ?? 20) : 0,
     });
 
     const propertiesWithWeather = await populatePropertiesWeatherData(properties);

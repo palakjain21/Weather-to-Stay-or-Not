@@ -7,6 +7,7 @@ export const getProperties = async (req: Request, res: Response) => {
     const params: GetPropertiesParams = {
       searchText: req.query.searchText as string | undefined,
       limit: req.query.limit ? parseInt(req.query.limit as string) : 20,
+      page: req.query.page ? parseInt(req.query.page as string) : 0,
       weatherFilters: {
         ...(req.query.temperatureMin && req.query.temperatureMax && {
           temperature: {
