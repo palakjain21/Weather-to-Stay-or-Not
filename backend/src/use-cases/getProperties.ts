@@ -1,41 +1,42 @@
 import { Request, Response } from "express";
-import { prisma } from "../database/prisma";
-import { Prisma } from "@prisma/client";
-
-export function buildPropertyWhere(
-  req: Request
-): Prisma.PropertyWhereInput | undefined {
-  const { searchText } = req.query;
-
-  if (typeof searchText !== "string") {
-    return undefined;
-  }
-
-  if (!searchText || searchText.trim().length === 0) {
-    return undefined;
-  }
-
-  const query = searchText.trim();
-
-  return {
-    OR: [
-      { name: { contains: query } },
-      { city: { contains: query } },
-      { state: { contains: query } },
-    ],
-  };
-}
+import { getProperties as getPropertiesService } from "../services/property";
+import { GetPropertiesParams } from "../services/property/types";
 
 export const getProperties = async (req: Request, res: Response) => {
   try {
-    const properties = await prisma.property.findMany({
-      take: 20,
-      where: buildPropertyWhere(req),
-    });
+    const params: GetPropertiesParams = {
+      searchText: req.query.searchText as string | undefined,
+      limit: req.query.limit ? parseInt(req.query.limit as string) : 20,
+      weatherFilters: {
+        ...(req.query.temperatureMin && req.query.temperatureMax && {
+          temperature: {
+            min: parseFloat(req.query.temperatureMin as string),
+            max: parseFloat(req.query.temperatureMax as string)
+          }
+        }),
+        ...(req.query.humidityMin && req.query.humidityMax && {
+          humidity: {
+            min: parseFloat(req.query.humidityMin as string),
+            max: parseFloat(req.query.humidityMax as string)
+          }
+        }),
+        ...(req.query.weatherCondition && {
+          weatherCondition: {
+            codes: (req.query.weatherCondition as string).split(',').map(code => parseInt(code))
+          }
+        })
+      }
+    };
 
-    return res.json(properties);
+    const result = await getPropertiesService(params);
+
+    if (result.error) {
+      return res.status(500).json({ error: result.error });
+    }
+
+    return res.json(result.properties);
   } catch (error) {
-    console.error("Error fetching properties:", error);
+    console.error("Error in getProperties use case:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
