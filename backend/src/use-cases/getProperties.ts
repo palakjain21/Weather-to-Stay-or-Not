@@ -7,7 +7,8 @@ export const getProperties = async (req: Request, res: Response) => {
     const params: GetPropertiesParams = {
       searchText: req.query.searchText as string | undefined,
       limit: req.query.limit ? parseInt(req.query.limit as string) : 20,
-      page: req.query.page ? parseInt(req.query.page as string) : 0,
+      page: req.query.page ? parseInt(req.query.page as string) : 0, // Keep for backwards compatibility
+      cursor: req.query.cursor ? parseInt(req.query.cursor as string) : undefined,
       weatherFilters: {
         ...(req.query.temperatureMin && req.query.temperatureMax && {
           temperature: {
@@ -37,7 +38,8 @@ export const getProperties = async (req: Request, res: Response) => {
 
     return res.json({
       properties: result.properties,
-      hasMore: result.hasMore
+      hasMore: result.hasMore,
+      nextCursor: result.nextCursor
     });
   } catch (error) {
     console.error("Error in getProperties use case:", error);

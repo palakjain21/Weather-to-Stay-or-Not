@@ -3,11 +3,9 @@
 import { useState, useEffect } from "react";
 import FilterBar, { FilterState } from "../components/FilterBar";
 import PropertyList from "../components/PropertyList";
-import { Property } from "../types/allTypes";
 import Image from "next/image";
 
 export default function Home() {
-  const [filteredProperties] = useState<Property[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState<FilterState>({
     searchQuery: '',
@@ -46,7 +44,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto p-8">
         <div className="mb-4">
-          <div className="flex items-center items-center gap-2 mb-2">
+          <div className="flex items-center gap-2 mb-2">
         <Image src='/weather-icon.svg' width={40} height={40} alt="Weather to Stay" />  
           <span className="text-4xl font-bold text-gray-900">Weather to Stay</span>
           </div>
@@ -65,9 +63,12 @@ export default function Home() {
         />
 
         <PropertyList 
-          properties={filteredProperties}
-          isLoading={isLoading}
           searchQuery={filters.searchQuery}
+          temperatureMin={filters.temperatureRange.min || undefined}
+          temperatureMax={filters.temperatureRange.max || undefined}
+          weatherCondition={filters.weatherCondition?.value || undefined}
+          humidityMin={filters.humidityRange.min || undefined}
+          humidityMax={filters.humidityRange.max || undefined}
         />
       </div>
     </div>

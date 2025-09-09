@@ -30,12 +30,14 @@ export interface GetPropertiesParams {
   searchText?: string;
   limit?: number;
   page?: number;
+  cursor?: number; // Last property ID from previous page
   weatherFilters?: WeatherFilters;
 }
 
 export interface GetPropertiesResult {
   properties: PropertyWithWeather[];
   hasMore?: boolean;
+  nextCursor?: number; // ID of last property for next page
   error?: string;
 }
 

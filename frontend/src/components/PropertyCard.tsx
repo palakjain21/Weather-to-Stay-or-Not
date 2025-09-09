@@ -1,7 +1,8 @@
 'use client';
 
 import { weatherConditions } from '../constants/weatherConditions';
-import { getWeatherIcon, Property } from '../constants/properties';
+import { getWeatherIcon } from '../constants/properties';
+import type { Property } from '../lib/property.api';
 
 interface PropertyCardProps {
   property: Property;

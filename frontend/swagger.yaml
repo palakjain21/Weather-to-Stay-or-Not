@@ -1,0 +1,137 @@
+dopenapi: 3.0.0
+info:
+  title: Weather to Stay or Not API
+  description: API for retrieving properties with weather information
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /properties:
+    get:
+      summary: Get properties with optional weather filters
+      description: Retrieve a list of properties with optional weather-based filtering and pagination
+      operationId: getProperties
+      parameters:
+        - name: searchText
+          in: query
+          description: Text to search for in property details
+          required: false
+          schema:
+            type: string
+
+        - name: limit
+          in: query
+          description: Number of properties to return per page (default 20)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 20
+
+        - name: page
+          in: query
+          description: Page number for pagination (0-based, default 0) - deprecated, use cursor instead
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        
+        - name: cursor
+          in: query
+          description: Cursor for pagination - ID of last property from previous page
+          required: false
+          schema:
+            type: integer
+
+        - name: temperatureMin
+          in: query
+          description: Minimum temperature filter
+          required: false
+          schema:
+            type: number
+            format: float
+
+        - name: temperatureMax
+          in: query
+          description: Maximum temperature filter
+          required: false
+          schema:
+            type: number
+            format: float
+
+        - name: humidityMin
+          in: query
+          description: Minimum humidity percentage filter
+          required: false
+          schema:
+            type: number
+            format: float
+            minimum: 0
+            maximum: 100
+
+        - name: humidityMax
+          in: query
+          description: Maximum humidity percentage filter
+          required: false
+          schema:
+            type: number
+            format: float
+            minimum: 0
+            maximum: 100
+
+        - name: weatherCondition
+          in: query
+          description: Comma-separated list of weather condition codes
+          required: false
+          schema:
+            type: string
+            example: "1,2,3"
+            pattern: "^[0-9]+(,[0-9]+)*$"
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  properties:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        weather:
+                          type: object
+                          properties:
+                            temperature:
+                              type: number
+                            windSpeed:
+                              type: number
+                            humidity:
+                              type: number
+                            weatherCode:
+                              type: number
+                  hasMore:
+                    type: boolean
+                    description: Indicates if there are more properties available in the next page
+                  nextCursor:
+                    type: integer
+                    description: Cursor for fetching the next page - ID of the last property in current page
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
